@@ -131,11 +131,10 @@ function after(count, func) {
 //  wait are provided to func when it is invoked. HINT: research setTimeout();
 
 function delay(func, wait, ...args) {
-  // Good to know: Passing arguments invokes the function (Will Sentance)
-  // Im writing it down since my first version of this function didn't worked
-  // setTimeout(func(...args), wait)
-
   setTimeout(function () {
+    // Good to know: Passing arguments invokes the function (Will Sentance)
+    // Im writing it down since my first version of this function didn't worked
+    // setTimeout(func(...args), wait)
     func(...args);
   }, wait);
 }
