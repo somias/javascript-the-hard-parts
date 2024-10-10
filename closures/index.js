@@ -153,22 +153,57 @@ function after(count, func) {
 // The second time it is invoked, it should log the second name to the console, and so on,
 // until all names have been called. Once all names have been called, it should log 'Everyone accounted for'.
 
-function rollCall(names) {
-  let index = 0;
-  function inner() {
-    if (index >= names.length) {
-      console.log("Everyone accounted for.");
-    } else {
-      console.log(names[index]);
-      index += 1;
+// function rollCall(names) {
+//   let index = 0;
+//   function inner() {
+//     if (index >= names.length) {
+//       console.log("Everyone accounted for.");
+//     } else {
+//       console.log(names[index]);
+//       index += 1;
+//     }
+//   }
+
+//   return inner;
+// }
+
+// const rollCaller = rollCall(["Victoria", "Juan", "Ruth"]);
+// rollCaller(); // => should log 'Victoria'
+// rollCaller(); // => should log 'Juan'
+// rollCaller(); // => should log 'Ruth'
+// rollCaller(); // => should log 'Everyone accounted for'
+
+// Challenge 8
+// Create a function saveOutput that accepts a function (that will accept one argument),
+// and a string (that will act as a password). saveOutput will then return a function that
+// behaves exactly like the passed-in function, except for when the password string is
+// passed in as an argument. When this happens, the returned function will return an object
+// with all previously passed-in arguments as keys, and the corresponding outputs as values.
+
+function saveOutput(func, magicWord) {
+  const password = magicWord;
+  const obj = {};
+
+  function inner(val) {
+    if (password === val) {
+      return obj;
     }
+
+    const returnedValueFromCallback = func(val);
+
+    Object.assign(obj, { [val]: returnedValueFromCallback });
+
+    return returnedValueFromCallback;
   }
 
   return inner;
 }
 
-const rollCaller = rollCall(["Victoria", "Juan", "Ruth"]);
-rollCaller(); // => should log 'Victoria'
-rollCaller(); // => should log 'Juan'
-rollCaller(); // => should log 'Ruth'
-rollCaller(); // => should log 'Everyone accounted for'
+const multiplyBy2 = function (num) {
+  return num * 2;
+};
+const multBy2AndLog = saveOutput(multiplyBy2, "boo");
+console.log(multBy2AndLog(2)); // => should log 4
+console.log(multBy2AndLog(6)); // => should log 12
+console.log(multBy2AndLog(9)); // => should log 18
+console.log(multBy2AndLog("boo")); // => should log { 2: 4, 6: 12, 9: 18 }
