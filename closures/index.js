@@ -130,19 +130,45 @@ function after(count, func) {
 // before allowing the callback to be invoked as the second parameter. Any additional arguments after
 //  wait are provided to func when it is invoked. HINT: research setTimeout();
 
-function delay(func, wait, ...args) {
-  setTimeout(function () {
-    // Good to know: Passing arguments invokes the function (Will Sentance)
-    // Im writing it down since my first version of this function didn't worked
-    // setTimeout(func(...args), wait)
-    func(...args);
-  }, wait);
+// function delay(func, wait, ...args) {
+//   setTimeout(function () {
+//     // Good to know: Passing arguments invokes the function (Will Sentance)
+//     // Im writing it down since my first version of this function didn't worked
+//     // setTimeout(func(...args), wait)
+//     func(...args);
+//   }, wait);
+// }
+
+// delay(
+//   function (message) {
+//     console.log(message);
+//   },
+//   2000,
+//   "Hey milos!"
+// );
+
+// Challenge 7
+// Write a function rollCall that accepts an array of names and returns a function.
+// The first time the returned function is invoked, it should log the first name to the console.
+// The second time it is invoked, it should log the second name to the console, and so on,
+// until all names have been called. Once all names have been called, it should log 'Everyone accounted for'.
+
+function rollCall(names) {
+  let index = 0;
+  function inner() {
+    if (index >= names.length) {
+      console.log("Everyone accounted for.");
+    } else {
+      console.log(names[index]);
+      index += 1;
+    }
+  }
+
+  return inner;
 }
 
-delay(
-  function (message) {
-    console.log(message);
-  },
-  2000,
-  "Hey milos!"
-);
+const rollCaller = rollCall(["Victoria", "Juan", "Ruth"]);
+rollCaller(); // => should log 'Victoria'
+rollCaller(); // => should log 'Juan'
+rollCaller(); // => should log 'Ruth'
+rollCaller(); // => should log 'Everyone accounted for'
