@@ -116,11 +116,34 @@ function after(count, func) {
 }
 
 // /*** Uncomment these to check your work! ***/
-const called = function () {
-  console.log("hello");
-};
-const afterCalled = after(3, called);
-afterCalled(); // => nothing is printed
-afterCalled(); // => nothing is printed
-afterCalled(); // => 'hello' is printed
-afterCalled(); // => 'hello' is printed
+// const called = function () {
+//   console.log("hello");
+// };
+// const afterCalled = after(3, called);
+// afterCalled(); // => nothing is printed
+// afterCalled(); // => nothing is printed
+// afterCalled(); // => 'hello' is printed
+// afterCalled(); // => 'hello' is printed
+
+// Challenge 6
+// Write a function delay that accepts a callback as the first parameter and the wait in milliseconds
+// before allowing the callback to be invoked as the second parameter. Any additional arguments after
+//  wait are provided to func when it is invoked. HINT: research setTimeout();
+
+function delay(func, wait, ...args) {
+  // Good to know: Passing arguments invokes the function (Will Sentance)
+  // Im writing it down since my first version of this function didn't worked
+  // setTimeout(func(...args), wait)
+
+  setTimeout(function () {
+    func(...args);
+  }, wait);
+}
+
+delay(
+  function (message) {
+    console.log(message);
+  },
+  2000,
+  "Hey milos!"
+);
