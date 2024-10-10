@@ -55,10 +55,10 @@ function outer() {
 
 function addByX(x) {
   let val = x;
-  console.log("initial value: ", x);
+  // console.log("initial value: ", x);
   function increment(x) {
     val += x;
-    console.log("increment value: ", val);
+    // console.log("increment value: ", val);
     return val;
   }
 
@@ -92,7 +92,35 @@ function once(callback) {
   return returnedFunction;
 }
 
-const onceFunc = once(addByTwo); // initial value is 2
-onceFunc(4); // => should log 6
-onceFunc(10); // => should log 6
+// const onceFunc = once(addByTwo); // initial value is 2
+// onceFunc(4); // => should log 6
+// onceFunc(10); // => should log 6
 // onceFunc(100); // => should log 6
+
+// Challenge 5
+// Write a function "after" that takes the number of times the callback needs to be called
+// before being executed as the first parameter and the callback as the second parameter.
+
+function after(count, func) {
+  let state = 0;
+
+  function inner() {
+    state += 1;
+
+    if (state >= count) {
+      func();
+    }
+  }
+
+  return inner;
+}
+
+// /*** Uncomment these to check your work! ***/
+const called = function () {
+  console.log("hello");
+};
+const afterCalled = after(3, called);
+afterCalled(); // => nothing is printed
+afterCalled(); // => nothing is printed
+afterCalled(); // => 'hello' is printed
+afterCalled(); // => 'hello' is printed
