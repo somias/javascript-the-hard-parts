@@ -59,6 +59,7 @@ function addByX(x) {
   function increment(x) {
     val += x;
     console.log("increment value: ", val);
+    return val;
   }
 
   return increment;
@@ -75,12 +76,17 @@ const addByTwo = addByX(2);
 // If it is called any additional times, instead of calling the callback again it will simply return the output value from the first time it was called.
 
 function once(callback) {
-  console.log("callback: ", callback);
+  let calledFirstTime = false;
+  let result;
 
   function returnedFunction(val) {
-    const finalValue = val;
-    console.log("finalValue: ", finalValue);
-    return callback(val);
+    if (calledFirstTime) {
+      return result;
+    }
+
+    calledFirstTime = true;
+    result = callback(val);
+    return result;
   }
 
   return returnedFunction;
@@ -88,5 +94,5 @@ function once(callback) {
 
 const onceFunc = once(addByTwo); // initial value is 2
 onceFunc(4); // => should log 6
-// onceFunc(10); // => should log 6
+onceFunc(10); // => should log 6
 // onceFunc(100); // => should log 6
