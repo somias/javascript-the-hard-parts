@@ -3,17 +3,17 @@
 // When that created function is called, it should print "hello".
 // When you think you completed createFunction, un-comment out those lines in the code and run it to see if it works.
 
-// function createFunction() {
-//   //   return function () {
-//   //     return console.log("Hello");
-//   //   };
+function createFunction() {
+  // return function () {
+  //   return console.log("Hello");
+  // };
 
-//   function sayHello() {
-//     return console.log("Hello");
-//   }
+  function sayHello() {
+    return console.log("Hello");
+  }
 
-//   return sayHello;
-// }
+  return sayHello;
+}
 
 // const function1 = createFunction();
 // function1();
@@ -56,8 +56,8 @@ function outer() {
 function addByX(x) {
   let val = x;
   // console.log("initial value: ", x);
-  function increment(x) {
-    val += x;
+  function increment(y) {
+    val += y;
     // console.log("increment value: ", val);
     return val;
   }
@@ -92,8 +92,8 @@ function once(callback) {
   return returnedFunction;
 }
 
-// const onceFunc = once(addByTwo); // initial value is 2
-// onceFunc(4); // => should log 6
+const onceFunc = once(addByTwo); // initial value is 2
+onceFunc(4); // => should log 6
 // onceFunc(10); // => should log 6
 // onceFunc(100); // => should log 6
 
@@ -180,30 +180,63 @@ function after(count, func) {
 // passed in as an argument. When this happens, the returned function will return an object
 // with all previously passed-in arguments as keys, and the corresponding outputs as values.
 
-function saveOutput(func, magicWord) {
-  const password = magicWord;
-  const obj = {};
+// function saveOutput(func, magicWord) {
+//   const password = magicWord;
+//   const obj = {};
 
-  function inner(val) {
-    if (password === val) {
-      return obj;
+//   function inner(val) {
+//     if (password === val) {
+//       return obj;
+//     }
+
+//     const returnedValueFromCallback = func(val);
+
+//     Object.assign(obj, { [val]: returnedValueFromCallback });
+
+//     return returnedValueFromCallback;
+//   }
+
+//   return inner;
+// }
+
+// const multiplyBy2 = function (num) {
+//   return num * 2;
+// };
+// const multBy2AndLog = saveOutput(multiplyBy2, "boo");
+// console.log(multBy2AndLog(2)); // => should log 4
+// console.log(multBy2AndLog(6)); // => should log 12
+// console.log(multBy2AndLog(9)); // => should log 18
+// console.log(multBy2AndLog("boo")); // => should log { 2: 4, 6: 12, 9: 18 }
+
+// Challenge 9
+// Create a function cycleIterator that accepts an array, and returns a function.
+// The returned function will accept zero arguments. When first invoked,
+// the returned function will return the first element of the array.
+// When invoked a second time, the returned function will return the second element of the array, and so forth.
+//  After returning the last element of the array, the next invocation will return the first element of the array again,
+//  and continue on with the second after that, and so forth.
+
+function cycleIterator(arr) {
+  let newArr = arr;
+  let index = 0;
+
+  function inner() {
+    const result = newArr[index];
+    if (newArr.length - 1 === index) {
+      index = 0;
+    } else {
+      index++;
     }
 
-    const returnedValueFromCallback = func(val);
-
-    Object.assign(obj, { [val]: returnedValueFromCallback });
-
-    return returnedValueFromCallback;
+    return result;
   }
 
   return inner;
 }
 
-const multiplyBy2 = function (num) {
-  return num * 2;
-};
-const multBy2AndLog = saveOutput(multiplyBy2, "boo");
-console.log(multBy2AndLog(2)); // => should log 4
-console.log(multBy2AndLog(6)); // => should log 12
-console.log(multBy2AndLog(9)); // => should log 18
-console.log(multBy2AndLog("boo")); // => should log { 2: 4, 6: 12, 9: 18 }
+const threeDayWeekend = ["Fri", "Sat", "Sun"];
+const getDay = cycleIterator(threeDayWeekend);
+console.log(getDay()); // => should log 'Fri'
+console.log(getDay()); // => should log 'Sat'
+console.log(getDay()); // => should log 'Sun'
+console.log(getDay()); // => should log 'Fri'
