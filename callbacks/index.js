@@ -156,20 +156,30 @@ function objOfMatches(firstArray, secondArray, callback) {
 // The corresponding values that are assigned to the keys will be arrays consisting of outputs from the array of callbacks,
 // where the input to each callback is the key.
 
+// This is my solution, I'll pase second solution below this one
+// function multiMap(valuesArray, callbacksArray) {
+//   const newObj = {};
+
+//   for (let i = 0; i < valuesArray.length; i++) {
+//     const element = valuesArray[i];
+//     const values = [];
+
+//     for (let j = 0; j < callbacksArray.length; j++) {
+//       const cb = callbacksArray[j];
+//       values.push(cb(element));
+//     }
+
+//     newObj[element] = values;
+//   }
+
+//   return newObj;
+// }
+
 function multiMap(valuesArray, callbacksArray) {
   const newObj = {};
-
-  for (let i = 0; i < valuesArray.length; i++) {
-    const element = valuesArray[i];
-    const values = [];
-
-    for (let j = 0; j < callbacksArray.length; j++) {
-      const cb = callbacksArray[j];
-      values.push(cb(element));
-    }
-
-    newObj[element] = values;
-  }
+  valuesArray.forEach((element) => {
+    newObj[element] = callbacksArray.map((cb) => cb(element));
+  });
 
   return newObj;
 }
