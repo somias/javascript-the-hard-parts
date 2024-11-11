@@ -139,13 +139,55 @@ function objOfMatches(firstArray, secondArray, callback) {
   return newObject;
 }
 
-console.log(
-  objOfMatches(
-    ["hi", "howdy", "bye", "later", "hello"],
-    ["HI", "Howdy", "BYE", "LATER", "hello"],
-    function (str) {
-      return str.toUpperCase();
+// console.log(
+//   objOfMatches(
+//     ["hi", "howdy", "bye", "later", "hello"],
+//     ["HI", "Howdy", "BYE", "LATER", "hello"],
+//     function (str) {
+//       return str.toUpperCase();
+//     }
+//   )
+// );
+// should log: { hi: 'HI', bye: 'BYE', later: 'LATER' }
+
+// Challenge 10
+// Construct a function multiMap that will accept two arrays:
+// an array of values and an array of callbacks. multiMap will return an object whose keys match the elements in the array of values.
+// The corresponding values that are assigned to the keys will be arrays consisting of outputs from the array of callbacks,
+// where the input to each callback is the key.
+
+function multiMap(valuesArray, callbacksArray) {
+  const newObj = {};
+
+  for (let i = 0; i < valuesArray.length; i++) {
+    const element = valuesArray[i];
+    const values = [];
+
+    for (let j = 0; j < callbacksArray.length; j++) {
+      const cb = callbacksArray[j];
+      values.push(cb(element));
     }
+
+    newObj[element] = values;
+  }
+
+  return newObj;
+}
+
+console.log(
+  multiMap(
+    ["catfood", "glue", "beer"],
+    [
+      function (str) {
+        return str.toUpperCase();
+      },
+      function (str) {
+        return str[0].toUpperCase() + str.slice(1).toLowerCase();
+      },
+      function (str) {
+        return str + str;
+      },
+    ]
   )
 );
-// should log: { hi: 'HI', bye: 'BYE', later: 'LATER' }
+// should log: { catfood: ['CATFOOD', 'Catfood', 'catfoodcatfood'], glue: ['GLUE', 'Glue', 'glueglue'], beer: ['BEER', 'Beer', 'beerbeer'] }
