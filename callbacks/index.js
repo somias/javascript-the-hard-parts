@@ -126,17 +126,13 @@ function union(arrays) {
 // and the element from the second array becomes the corresponding value.
 
 function objOfMatches(firstArray, secondArray, callback) {
-  const newObject = Object.create({});
+  const newObject = {};
 
   for (let index = 0; index < firstArray.length; index++) {
-    const element = callback(firstArray[index]);
-    const existsInSecondArray = secondArray.find((el) => el === element);
+    const transformedElement = callback(firstArray[index]);
 
-    if (existsInSecondArray) {
-      console.log("TRUE TRUE:", existsInSecondArray);
-      Object.assign(newObject, {
-        [element.toLowerCase()]: existsInSecondArray,
-      });
+    if (transformedElement === secondArray[index]) {
+      newObject[firstArray[index]] = secondArray[index];
     }
   }
 
