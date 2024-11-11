@@ -2,7 +2,7 @@
 // Create a function addTwo that accepts one input and adds 2 to it.
 
 function addTwo(input) {
-    return input + 2;
+  return input + 2;
 }
 
 // To check if you've completed it, uncomment these console.logs!
@@ -13,7 +13,7 @@ function addTwo(input) {
 // Create a function addS that accepts one input and adds an "s" to it.
 
 function addS(word) {
-    return word + "s"
+  return word + "s";
 }
 
 // console.log(addS('pizza'));
@@ -26,12 +26,12 @@ function addS(word) {
 // Have map return a new array filled with numbers that are the result of using the 'callback' function on each element of the input array.
 
 function map(array, callback) {
-    const newArray = [];
-    for (let i = 0; i < array.length; i++) {
-        newArray.push(callback(array[i]));
-    }
+  const newArray = [];
+  for (let i = 0; i < array.length; i++) {
+    newArray.push(callback(array[i]));
+  }
 
-    return newArray;
+  return newArray;
 }
 
 // console.log(map([1, 2, 3], addTwo));
@@ -41,15 +41,15 @@ function map(array, callback) {
 // and runs the callback on each element of the array. forEach does not return anything.
 
 function forEach(array, callback) {
-    for (let i = 0; i < array.length; i++) {
-        callback(array[i]);
-    }
+  for (let i = 0; i < array.length; i++) {
+    callback(array[i]);
+  }
 }
 
-let alphabet = '';
-const letters = ['a', 'b', 'c', 'd'];
-forEach(letters, function(char) {
-    alphabet += char;
+let alphabet = "";
+const letters = ["a", "b", "c", "d"];
+forEach(letters, function (char) {
+  alphabet += char;
 });
 // console.log(alphabet);   //prints 'abcd'
 
@@ -59,12 +59,12 @@ forEach(letters, function(char) {
 // This time you're going to use forEach inside mapWith instead of using a for loop.
 
 function mapWith(array, callback) {
-    const newArray = [];
-    forEach(array, function(val) {
-        newArray.push(callback(val));
-    })
+  const newArray = [];
+  forEach(array, function (val) {
+    newArray.push(callback(val));
+  });
 
-    return newArray;
+  return newArray;
 }
 
 // console.log(mapWith([1, 2, 3], addTwo));
@@ -74,16 +74,18 @@ function mapWith(array, callback) {
 // For example, it can sum all the numbers, multiply them, or any operation that you can put into a function.
 
 function reduce(array, callback, startingValue) {
-    let initialValue = startingValue;
-    for (let i = 0; i < array.length; i++) {
-        initialValue = callback(initialValue, array[i])
-    }
+  let initialValue = startingValue;
+  for (let i = 0; i < array.length; i++) {
+    initialValue = callback(initialValue, array[i]);
+  }
 
-    return initialValue;
+  return initialValue;
 }
 
 const nums = [4, 1, 3];
-const add = function(a, b) { return a + b; }
+const add = function (a, b) {
+  return a + b;
+};
 // console.log(reduce(nums, add, 0));   //-> 8
 
 // Challenge 7
@@ -91,9 +93,9 @@ const add = function(a, b) { return a + b; }
 // compares the inner arrays, and returns a new array with elements found in all of them. BONUS: Use reduce!
 
 function intersection(arrays) {
-    return arrays.reduce((acc, curr) => {
-        return curr.filter(el => acc.includes(el))
-    })
+  return arrays.reduce((acc, curr) => {
+    return curr.filter((el) => acc.includes(el));
+  });
 }
 
 // console.log(intersection([[5, 10, 15, 20], [15, 88, 1, 5, 7], [1, 10, 15, 5, 20]]));
@@ -106,11 +108,48 @@ function intersection(arrays) {
 // Preserve the order of the elements starting from the first element of the first array. BONUS: Use reduce!
 
 function union(arrays) {
-    return arrays.reduce((acc, curr) => {
-        const elements = curr.filter(el => !acc.includes(el));
-        return acc.concat(elements);
-    });
+  return arrays.reduce((acc, curr) => {
+    const elements = curr.filter((el) => !acc.includes(el));
+    return acc.concat(elements);
+  });
 }
 
-console.log(union([[5, 10, 15], [15, 88, 1, 5, 7], [100, 15, 10, 1, 5]]));
+// console.log(union([[5, 10, 15], [15, 88, 1, 5, 7], [100, 15, 10, 1, 5]]));
 // should log: [5, 10, 15, 88, 1, 7, 100]
+
+// Challenge 9
+// Construct a function objOfMatches that accepts two arrays and a callback.
+// objOfMatches will build an object and return it. To build the object,
+// objOfMatches will test each element of the first array using the callback
+// to see if the output matches the corresponding element (by index) of the second array.
+// If there is a match, the element from the first array becomes a key in an object,
+// and the element from the second array becomes the corresponding value.
+
+function objOfMatches(firstArray, secondArray, callback) {
+  const newObject = Object.create({});
+
+  for (let index = 0; index < firstArray.length; index++) {
+    const element = callback(firstArray[index]);
+    const existsInSecondArray = secondArray.find((el) => el === element);
+
+    if (existsInSecondArray) {
+      console.log("TRUE TRUE:", existsInSecondArray);
+      Object.assign(newObject, {
+        [element.toLowerCase()]: existsInSecondArray,
+      });
+    }
+  }
+
+  return newObject;
+}
+
+console.log(
+  objOfMatches(
+    ["hi", "howdy", "bye", "later", "hello"],
+    ["HI", "Howdy", "BYE", "LATER", "hello"],
+    function (str) {
+      return str.toUpperCase();
+    }
+  )
+);
+// should log: { hi: 'HI', bye: 'BYE', later: 'LATER' }
