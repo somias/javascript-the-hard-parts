@@ -254,8 +254,93 @@ function majority(arr, callback) {
   }
 }
 
-const isOdd = function (num) {
-  return num % 2 === 1;
+// const isOdd = function (num) {
+//   return num % 2 === 1;
+// };
+// console.log(majority([1, 2, 3, 4, 5], isOdd)); // should log: true
+// console.log(majority([2, 3, 4, 5], isOdd)); // should log: false
+
+// Challenge 13
+// Create a function prioritize that accepts an array and a callback.
+// The callback will return either true or false. prioritize will iterate through the array
+// and perform the callback on each element, and return a new array,
+// where all the elements that yielded a return value of true come first in the array,
+// and the rest of the elements come second.
+
+// This was my solution which isn't completely good
+// function prioritize(arr, callback) {
+//   const newArray = [];
+//   arr.forEach((el) => {
+//     const callbackValue = callback(el);
+//     if (callbackValue) {
+//       newArray.unshift(el);
+//     } else {
+//       newArray.push(el);
+//     }
+//   });
+
+//   return newArray;
+// }
+
+// This is Claude solution
+// function prioritize(arr, callback) {
+//   const trueArr = [];
+//   const falseArr = [];
+
+//   arr.forEach((element) => {
+//     if (callback(element)) {
+//       trueArr.push(element);
+//     } else {
+//       falseArr.push(element);
+//     }
+//   });
+
+//   return trueArr.concat(falseArr);
+// }
+
+// I've got one more Claude solution that i think is worth learning more about reduce method
+function prioritize(arr, callback) {
+  return arr
+    .reduce(
+      (result, element) => {
+        callback(element) ? result[0].push(element) : result[1].push(element);
+        return result;
+      },
+      [[], []]
+    )
+    .flat();
+}
+
+const startsWithS = function (str) {
+  return str[0] === "s" || str[0] === "S";
 };
-console.log(majority([1, 2, 3, 4, 5], isOdd)); // should log: true
-console.log(majority([2, 3, 4, 5], isOdd)); // should log: false
+// console.log(
+//   prioritize(
+//     ["curb", "rickandmorty", "seinfeld", "sunny", "friends"],
+//     startsWithS
+//   )
+// );
+// should log: ['seinfeld', 'sunny', 'curb', 'rickandmorty', 'friends']
+
+// This is some challenge to learn reduce better
+// const fruits = ['apple', 'banana', 'apple', 'orange', 'banana', 'apple'];
+// const count = fruits.reduce((acc, fruit) => {
+//     acc[fruit] = (acc[fruit] || 0) + 1;
+//     return acc;
+// }, {});
+const students = [
+  { name: "John", grade: "A" },
+  { name: "Jane", grade: "B" },
+  { name: "Bob", grade: "A" },
+];
+
+const byGrade = students.reduce((acc, student) => {
+  const grade = student.grade;
+  acc[grade] = acc[grade] || [];
+  acc[grade].push(student.name);
+
+  return acc;
+}, {});
+
+console.log(byGrade);
+// Result: { A: ['John', 'Bob'], B: ['Jane'] }
