@@ -184,20 +184,44 @@ function multiMap(valuesArray, callbacksArray) {
   return newObj;
 }
 
-console.log(
-  multiMap(
-    ["catfood", "glue", "beer"],
-    [
-      function (str) {
-        return str.toUpperCase();
-      },
-      function (str) {
-        return str[0].toUpperCase() + str.slice(1).toLowerCase();
-      },
-      function (str) {
-        return str + str;
-      },
-    ]
-  )
-);
+// console.log(
+//   multiMap(
+//     ["catfood", "glue", "beer"],
+//     [
+//       function (str) {
+//         return str.toUpperCase();
+//       },
+//       function (str) {
+//         return str[0].toUpperCase() + str.slice(1).toLowerCase();
+//       },
+//       function (str) {
+//         return str + str;
+//       },
+//     ]
+//   )
+// );
 // should log: { catfood: ['CATFOOD', 'Catfood', 'catfoodcatfood'], glue: ['GLUE', 'Glue', 'glueglue'], beer: ['BEER', 'Beer', 'beerbeer'] }
+
+// Challenge 11
+// Construct a function objectFilter that accepts an object as the first parameter
+//  and a callback function as the second parameter. objectFilter will return a new object.
+//  The new object will contain only the properties from the input object such
+//  that the property's value is equal to the property's key passed into the callback.
+
+function objectFilter(obj, callback) {
+  const newObj = {};
+  Object.keys(obj).forEach((key) => {
+    const transformedKey = callback(key);
+    if (obj[key] === transformedKey) {
+      newObj[key] = transformedKey;
+    }
+  });
+  return newObj;
+}
+
+const cities = {
+  London: "LONDON",
+  LA: "Los Angeles",
+  Paris: "PARIS",
+};
+// console.log(objectFilter(cities, (city) => city.toUpperCase())); // Should log { London: 'LONDON', Paris: 'PARIS'}
